@@ -1,0 +1,344 @@
+<html>
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+   <!-- <link href="https://fonts.googleapis.com/css?family=Nanum+Brush+Script" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bubblegum+Sans" rel="stylesheet">-->
+    <link href="https://fonts.googleapis.com/css?family=Pompiere" rel="stylesheet">
+    <style>
+        #layout{
+            position:relative;
+            width:400px;
+            height:500px;
+            background-color: #93B7BF;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #DCDCDD;
+            border-top-width: 50px;
+            border-bottom-width:50px;
+            border-radius: 30px;
+            box-shadow: inset 0px 2px rgba(0, 0, 0, 0.4);
+            
+            
+        }
+        
+        #texthere{
+            background-color: #A2A0A8;
+           /* border-color: white;
+            border-style: solid;*/
+            border:none;
+            width:340px;
+            height:40px;
+            margin:5px;
+            padding:0px;
+            overflow-y:scroll;
+            resize:none;
+            opacity: 0.5;
+            font-family: 'Pompiere', cursive;
+            font-size:18px;
+
+        }
+        
+        #texthere:focus {
+            opacity:1;
+            outline:none;
+        }
+        
+        #btbar{
+            position:absolute;
+            top:460px;
+            width:400px;
+            height:50px;
+            background-color: #7C6A7C
+        }
+    
+        #place{
+            position:relative;
+        }
+        
+        #btnmsg{
+            position:absolute;
+            top:5px;
+            width:40px;
+            height:40px;
+            margin-left:0px;
+            border-radius: 50%;
+            background-color: aquamarine;
+            opacity:0.5;
+        }
+        
+        #btnmsg:active{
+            opacity:1;
+        }
+        
+        #notif{
+             width:400px;
+            height:15px;
+            position:absolute;
+            top:445px;
+           /* background-color: blueviolet;*/
+            
+        }
+    
+        #txtcontainer{
+            width:400px;
+            height:445px;
+            padding:5px;
+            box-sizing: border-box;
+            overflow-y: scroll;
+        }
+        
+        #txtcontainer::-webkit-scrollbar{
+            
+            background-color: transparent;
+           /* color:white;*/
+        }
+        
+        #txtcontainer::-webkit-scrollbar-button{
+            background-color:transparent;
+            
+            
+        }
+        #txtcontainer::-webkit-scrollbar-thumb{
+            background-color: rgba(0, 0, 0, 0.2);
+           /* color: red;*/
+            border:1px solid rgba(0, 0, 0, 0.6);
+            border-radius: 5px;
+        }
+        
+        .inmsg{
+            position:relative;
+            max-width:250px;
+            min-height:30px;
+            overflow-x:clip;
+            overflow-y:auto;
+            background-color: #D0DED4;
+            float:left;
+            margin-bottom:5px;
+            padding:5px;
+            border:solid 1px rgba(0, 0, 0, 0.4);
+            border-radius:5px;
+            display: block;
+            font-family: 'Pompiere', cursive;
+           font-size:18px;
+            box-shadow: 1px 2px rgba(0, 0, 0, 0.4);
+            opacity:0.5;
+         
+            
+            
+        }   
+        .outmsg{
+            max-width:250px;
+            min-height:30px;
+            overflow-x:clip;
+            overflow-y:auto;
+            background-color: #FFFDA2;
+            float:right;
+            margin-bottom:5px;
+            padding:5px;
+            border:solid 1px rgba(0, 0, 0, 0.4);
+            border-radius:5px;
+            font-family: 'Pompiere', cursive;
+            font-size: 18px;
+            opacity:0.5;
+           box-shadow: 1px 2px rgba(0, 0, 0, 0.4);
+            
+            
+        }
+        .brmsg{
+            width:100%;
+            height:10px;
+            background-color: none;
+            position: relative;
+            float:left;
+            overflow-x:none;
+        }
+        
+         .brmsgt{
+            width:100%;
+            height:2px;
+            background-color: none;
+            position: relative;
+            float:left;
+            overflow-x:none;
+        }
+        
+        #notif{
+            font-size:13px;
+            padding-left:8px;
+        }
+        .chars{
+            font-size:18px;
+            padding:2px;
+            float:left;
+            font-family: 'Amatic SC', cursive;
+            font-weight: bold;
+        }
+        
+          .chary{
+            font-size:18px;
+            padding:2px;
+            float:right;
+            font-family: 'Amatic SC', cursive;
+            font-weight:bold;
+        }
+    </style>
+    
+    <body>
+    <div id="layout">
+     <div id="place">   
+    <div id="txtcontainer">
+      
+    <div id="newmsgs"></div>
+    </div>
+    <div id="notif"> </div>     
+    <div id="btbar">   
+    <textarea id="texthere" placeholder="type something here"></textarea>
+    <button name="send" id="btnmsg" onclick=loaddata()></button>
+    </div> 
+    </div>
+    </div>
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    </body>
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src= "https://cdnjs.cloudflare.com/ajax/libs/velocity/1.4.3/velocity.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/blast-text@2.0.0/jquery.blast.min.js"></script>
+    <script src="https://unpkg.com/ityped@1.0.2"></script>
+
+    <script>
+    var apptxt;
+    var abc;
+        var holdmydrink=0;
+        var pos1;
+        var actpos;
+        
+      function loaddata(){
+       if(holdmydrink==0){ 
+        myvis();
+        
+    $.ajax({
+        url:'https://got-quotes.herokuapp.com/quotes',
+        dataType:'JSON'
+           
+        
+    }).done(function(d)
+    {
+        console.log(d)
+        resq=d.quote;
+        resc=d.character;
+        
+        showtype();
+     //   print();
+        
+            })
+       }
+    
+    }
+        
+    function showtype()
+        {
+            console.log("in func showtype");
+            holdmydrink=1;
+                  ityped.init(document.querySelector("#notif"), {
+      showCursor: false,
+    loop:false,         
+     onFinished:print,
+    //async:false,
+    
+      strings: [resc+' is typing',resc+ ' is typing'," " ]
+    })
+        /*  $("#notif").append("<div>"+resc+" is typing</div>");
+            $("#notif").velocity({ opacity:0}, {duration:1000,loop:4,begin:function(){console.log("starting");},complete:function(){
+                console.log("complete");
+                $("#notif:last").remove();
+            }});*/
+           // $("#notif").velocity({opacity:[1,0]},{duration:1000},{loop:true})
+        
+      //  $("#notif:last").remove();    
+        }
+    
+      /*  function btout(){
+            
+            $("#btnmsg").velocity("stop");
+        }*/
+        
+   /*function btstat()
+        {
+           /* console.log("infn");
+            var $seethis=$("#texthere").val();
+            if($seethis!="" && holdmydrink==0){
+                holdmydrink=1;
+                console.log("inlp")
+                $("#btnmsg").velocity({opacity:1},{duration:200},{loop:true});
+                  
+                  
+                  }
+             console.log("infn");
+            $("#btnmsg").velocity({opacity:1},{duration:200},{loop:true});
+        }*/
+        
+        
+    function print(){
+        holdmydrink=0
+    console.log("name: "+resc);
+    console.log("character: "+resq)
+    apptxt="<div class="+"inmsg"+">"+resq+"</div>";
+    exist();
+    
+   // $("#newmsgs").append("<div class="+"inmsg"+">"+resq+"</div>")    
+    
+    }
+        
+        function exist(){
+            $("#newmsgs").append("<div class="+"chars"+">"+resc+":</div>");
+            $("#newmsgs").append("<div class="+"brmsgt"+"></div>");
+            $("#newmsgs").append("<div class="+"inmsg staymsg"+">"+resq+"</div>");
+             $("#newmsgs").append("<div class="+"brmsg"+"></div>");
+            
+            $(".inmsg:last").velocity({opacity:[1,0],scale:[1,0]},{duration:200});
+            
+            
+        }
+   function myvis(){
+       var $seethis=$("#texthere").val();
+       console.log($seethis);
+       $("#texthere").val("");
+       
+       if($seethis!=""){
+       mexist($seethis);
+       }
+       
+   }
+    function mexist(abc){
+        $("#newmsgs").append("<div class="+"chary"+">You:</div>");
+        $("#newmsgs").append("<div class="+"brmsgt"+"></div>");
+        $("#newmsgs").append("<div class="+"outmsg staymsg"+">"+abc+"</div>");
+        $("#newmsgs").append("<div class="+"brmsg"+"></div>");
+    //   pos1= $(".outmsg:eq(-1)").offset();
+   // actpos=pos1;
+  //  console.log(actpos);
+        //-parseInt($(".outmsg:eq(-1)").css.(width));
+     //   $("outmsg:last").css("top",
+            $(".outmsg:last").velocity({opacity:[1,0],scale:[1,0]},{duration:200});
+        
+    }
+        
+        //animate button
+        
+        $("#btnmsg").velocity({ opacity:1}, {duration:1000,loop:true});
+        $("#layout").velocity({backgroundColorBlue: "+=50",backgroundColorRed: "+=20",backgroundColorAlpha:0.8},{duration:7000,loop:true});
+    
+    
+    
+    </script>
+
+</html>
